@@ -1,0 +1,9 @@
+{
+  "binarize_threshold_sigma_plus": 3.0,
+  "binarize_threshold_sigma_minus": -2.0,
+  "f01_height_min": 3,
+  "f01_moment_thresholds": [0.1, 60.0, 120.0, 170.0, 500.0],
+  "f12_distance_min": 25,
+  "f12_distance_max": 100,
+  "f12_height_min": 3
+}

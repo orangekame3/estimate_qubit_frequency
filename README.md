@@ -46,27 +46,22 @@ uv run src/main.py -c config.json -f /path/to/data.json --json
 
 main.pyの出力オプション(複数可)
 
-```
---image-dir <image_dir>: <image_dir>に検出結果画像・元画像・二値化画像を出力する.
---plot: 検出結果をブラウザで表示する.
---json: 検出結果をjsonで出力する(詳しくは以下参照). 
-```
+- `--image-dir <image_dir>`: <image_dir>に検出結果画像・元画像・二値化画像を出力する.
+- `--plot`: 検出結果をブラウザで表示する.
+- `--json`: 検出結果をjsonで出力する(詳しくは[以下](#json出力について)参照).
 
-`--json`指定時の出力例
 
-検出成功時
+## json出力について
 
-```
-{
-  "f01_frequency": 8.029999999999967,
-  "f12_frequency": 7.849999999999971,
-  "quality_level": 5,
-  "status": "OK",
-  "error": null
-}
-```
+- `f01_frequency`: f01の周波数(GHz).
+- `f12_frequency`: f12の周波数(GHz).
+- `quality_level`: 実験結果画像の鮮明さ. 0 ~ <`f01_moment_thresholds`の要素数> の整数で, 高いほど鮮明.
+- `status`: "OK"か"ERROR". 処理中に例外が発生した場合ERROR, 単にf01やf12が検出できなかっただけの場合はOKになる.
+- `error`: 処理中に発生した例外のエラーメッセージ.
 
-f01, f12該当なしの時
+#### f01, f12該当なしの時
+
+`quality_level == 0` ⇔ f01該当なし. 「正常に検出プロセスが走った結果f01が見つからなかった」という意味で`status`は"OK".
 
 ```
 {
@@ -78,7 +73,35 @@ f01, f12該当なしの時
 }
 ```
 
-例外発生時
+#### f01検出, f12該当なしの時.
+
+`quality_level > 0` ⇔ f01検出成功. `quality_level`の値はf12検出の成否とは無関係に算出されるため, 仮に`quality_level`の値が高くてもf12が該当無しになる場合もある.
+
+```
+{
+  "f01_frequency": 8.85499999999995,
+  "f12_frequency": null,
+  "quality_level": 1,
+  "status": "OK",
+  "error": null
+}
+```
+
+#### f01, f12検出成功時
+
+```
+{
+  "f01_frequency": 8.029999999999967,
+  "f12_frequency": 7.849999999999971,
+  "quality_level": 5,
+  "status": "OK",
+  "error": null
+}
+```
+
+#### 例外発生時
+
+コンフィグファイルの値が不正なときや, 入力ファイルにNaNが含まれている場合などに例外が発生する.
 
 ```
 {

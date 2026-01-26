@@ -22,8 +22,8 @@ class QubitResponseConfig:
     top_power: float
     f01_height_min: float
     f01_moment_thresholds: Sequence[float]
-    f12_distance_min: int
-    f12_distance_max: int
+    f12_distance_min: float
+    f12_distance_max: float
     f12_height_min: float
 
     def __post_init__(self):
@@ -119,7 +119,7 @@ class QubitResponse:
             peak
             for peak in self.peaks
             if self.config.f12_distance_min
-            <= self.f01.idx_x - peak.x_end + 1
+            <= self.f01.frequency - peak.frequency_right
             <= self.config.f12_distance_max
             and peak.height_db >= self.config.f12_height_min
         ]
@@ -154,9 +154,15 @@ class QubitResponse:
             if height > height_prev:
                 x_start = x
 
-            if height < height_prev and x_start is not None:
+            elif height < height_prev and x_start is not None:
                 _peaks.append(
-                    QubitResponse.Peak(x_start, x, height_prev, height_db_prev)
+                    QubitResponse.Peak(
+                        x_start=x_start,
+                        x_end=x,
+                        height=height_prev,
+                        height_db=height_db_prev,
+                        frequency_right=self.xs[x - 1],
+                    )
                 )
                 x_start = None
 
@@ -265,6 +271,7 @@ class QubitResponse:
         x_end: int
         height: int
         height_db: float
+        frequency_right: float
 
 
 def create_figure(data, zs=None):

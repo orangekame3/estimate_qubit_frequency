@@ -4,7 +4,7 @@
   "top_power": 0,
   "f01_height_min": 14.9,
   "f01_moment_thresholds": [0.1, 1750.0, 3600.0, 5000.0, 15000.0],
-  "f12_distance_min": 25,
-  "f12_distance_max": 100,
+  "f12_distance_min": 0.125,
+  "f12_distance_max": 0.5,
   "f12_height_min": 14.9
 }

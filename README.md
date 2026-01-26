@@ -7,7 +7,7 @@
 5. 最も高い山の高さを検出する, その高さが`f01_height_min`未満の場合はf01該当なしとする. 山の高さは`top_power`を基準に計算する. 例えば`top_power`が0dBで山が-20dBまで伸びているとき, 山の高さは20dBになる.
 6. 山の最も高い部分の周波数をf01とする, 複数ある場合はphase shiftの絶対値が一番大きい部分を採用する.
 7. f01を含む山の一次モーメントを計算(`top_power`と各部分のパワーの差を腕の長さ, phase shiftの絶対値を1dBあたりの質量とみなす)し, その値と`f01_moment_thresholds`から`quality_level`を算出する.
-8. f01から低周波方向に走査し, `f12_distance_min` ~ `f12_distance_max` の距離にあり, `f12_height_min` 以上の高さの山の中で最も周波数の高い山をf12とする. そのような山が存在しない場合はf12該当なしとする. 山の高さは`top_power`を基準に計算する.
+8. f01から低周波方向に走査し, `f12_distance_min` ~ `f12_distance_max` の距離(GHz)にあり, `f12_height_min` 以上の高さの山の中で最も周波数の高い山をf12とする. そのような山が存在しない場合はf12該当なしとする. 山の高さは`top_power`を基準に計算する.
 
 ## `quality_level`について
 
@@ -28,7 +28,7 @@ quality_level = 5: 15000.0 < m
 - `top_power`: 山の高さやモーメントの値の計算時に基準とするパワーの値(dB). グラフの上端のパワーの値とすることを推奨.
 - `f01_height_min`: f01として採用されるのに必要な最低限の山の高さ(dB).
 - `f01_moment_thresholds`: quality_levelの算出に使う閾値. 詳しくは[`quality_level`について](#quality_levelについて)を参照.
-- `f12_distance_(min/max)`: f12が存在するはずのf01からの距離範囲. 単位はxの1目盛.
+- `f12_distance_(min/max)`: f12が存在するはずのf01からの距離範囲(GHz).
 - `f12_height_min`: f12として採用されるのに必要な最低限の山の高さ(dB).
 
 ## インストール
